@@ -80,8 +80,8 @@ export function ContactPageView() {
           </p>
           <div className="mt-8 sm:mt-10">
             <a href={SOCIAL_INSTAGRAM} className={btnInstagram} target="_blank" rel="noopener noreferrer">
-              <span className="inline-flex shrink-0 rounded-[3px] bg-white p-[2px] leading-none">
-                <InstagramLogo gradientId="fd-contact-instagram" className="h-4 w-4" />
+              <span className="inline-flex shrink-0 rounded-[3px] bg-white p-[2px] leading-none text-[#113278]">
+                <InstagramLogo className="h-4 w-4" />
               </span>
               Instagram
             </a>
