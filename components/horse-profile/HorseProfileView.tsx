@@ -23,43 +23,20 @@ interface HorseProfileViewProps {
   newsItems: NewsItem[];
 }
 
-function PeriodStatsBlock({ horse }: { horse: Horse }) {
-  if (!horse.periodStats2026 && !horse.periodStatsCareer) return null;
+const labelField = "text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8FA3BF]";
+const valueField = "font-sans text-[18px] font-semibold leading-snug text-[#0B1B3A] md:text-[20px]";
+const sectionEyebrow = "text-[12px] font-semibold uppercase tracking-[0.2em] text-[#8FA3BF]";
+const dividerY = "border-t border-[#E6ECF5] my-8";
+const listRow = "flex justify-between gap-6 py-4";
+const listLabel = "text-[11px] font-semibold uppercase tracking-widest text-[#8FA3BF]";
+const listValue = "text-right font-medium text-[#0B1B3A]";
+
+function FieldGroup({ label, value }: { label: string; value: string }) {
   return (
-    <section className="border-t border-slate-200 bg-white py-14 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <h2 className={`${oswald.className} text-sm font-bold uppercase tracking-[0.18em] text-slate-900`}>
-          Period statistics
-        </h2>
-        <div className="mt-8 grid gap-10 sm:grid-cols-2">
-          {horse.periodStats2026 ? (
-            <dl className="space-y-3 border-t border-slate-200 pt-6">
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">
-                2026 (through current entry)
-              </dt>
-              <dd className="font-sans text-sm text-slate-700">
-                <span className="font-semibold text-slate-900">{horse.periodStats2026.starts}</span> starts ·{" "}
-                <span className="font-semibold text-slate-900">{horse.periodStats2026.firsts}</span> wins ·{" "}
-                {horse.periodStats2026.seconds}–{horse.periodStats2026.thirds} ·{" "}
-                <span className="font-semibold tabular-nums text-[#113278]">{horse.periodStats2026.earnings}</span>
-              </dd>
-            </dl>
-          ) : null}
-          {horse.periodStatsCareer ? (
-            <dl className="space-y-3 border-t border-slate-200 pt-6">
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Career (stable)</dt>
-              <dd className="font-sans text-sm text-slate-700">
-                <span className="font-semibold text-slate-900">{horse.periodStatsCareer.starts}</span> starts ·{" "}
-                <span className="font-semibold text-slate-900">{horse.periodStatsCareer.firsts}</span> wins ·{" "}
-                {horse.periodStatsCareer.seconds}–{horse.periodStatsCareer.thirds} ·{" "}
-                <span className="font-semibold tabular-nums text-[#113278]">{horse.periodStatsCareer.earnings}</span>
-              </dd>
-            </dl>
-          ) : null}
-        </div>
-        <p className="mt-8 text-xs text-slate-400">Figures shown for stable and promotional use.</p>
-      </div>
-    </section>
+    <div className="space-y-1">
+      <p className={labelField}>{label}</p>
+      <p className={valueField}>{value}</p>
+    </div>
   );
 }
 
@@ -70,8 +47,8 @@ function CoverageCard({ item }: { item: ProfileCoverageItem }) {
         <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width:768px) 100vw, 25vw" />
       </div>
       <div className="p-4">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">{item.source}</p>
-        <p className={`${oswald.className} mt-1 line-clamp-2 text-base font-bold uppercase leading-snug tracking-tight text-slate-900`}>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8FA3BF]">{item.source}</p>
+        <p className={`${oswald.className} mt-1 line-clamp-2 text-base font-bold uppercase leading-snug tracking-tight text-[#0B1B3A]`}>
           {item.title}
         </p>
         <p className="mt-2 text-xs font-semibold text-[#113278]">{item.cta}</p>
@@ -80,7 +57,7 @@ function CoverageCard({ item }: { item: ProfileCoverageItem }) {
   );
 
   const className =
-    "group flex flex-col overflow-hidden border border-slate-200/90 bg-white transition-colors duration-200 hover:border-slate-300";
+    "group flex flex-col overflow-hidden border border-[#E6ECF5] bg-white transition-colors duration-200 hover:border-[#cfd8e8]";
 
   if (item.external) {
     return (
@@ -138,7 +115,7 @@ export function HorseProfileView({ horse, horseResults, spotlightItems, newsItem
   const bestClass = horse.racingClass ?? "—";
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb] pb-16">
+    <div className="min-h-screen bg-[#f8f9fb] pb-12 md:pb-16">
       {/* Hero */}
       <section
         className={`relative w-full overflow-hidden ${oswald.className}`}
@@ -195,177 +172,201 @@ export function HorseProfileView({ horse, horseResults, spotlightItems, newsItem
         </div>
       </section>
 
-      {/* Profile facts */}
-      <section className="border-b border-slate-200 bg-white py-14 sm:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <dl className="grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="border-b border-[#E6ECF5] bg-white">
+        <div className="mx-auto max-w-3xl px-5 py-8 md:px-12 md:py-16">
+          {/* Field groups */}
+          <div className="space-y-6">
             {factFields.map((f) => (
-              <div key={f.label}>
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">{f.label}</dt>
-                <dd className="mt-2 font-sans text-base font-semibold leading-snug text-[#113278]">{f.value}</dd>
-              </div>
+              <FieldGroup key={f.label} label={f.label} value={f.value} />
             ))}
-          </dl>
-        </div>
-      </section>
+          </div>
 
-      {/* Stats strip */}
-      <section className="border-b border-slate-200 bg-[#f1f3f7] py-10 sm:py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-slate-300/80">
-            <div className="lg:px-6 lg:first:pl-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Record</p>
-              <p className={`${oswald.className} mt-2 text-2xl font-bold uppercase tabular-nums tracking-tight text-slate-900 sm:text-3xl`}>
+          <div className={dividerY} aria-hidden />
+
+          {/* Record + earnings */}
+          <div className="grid grid-cols-2 gap-6 border-y border-[#E6ECF5] py-6">
+            <div>
+              <p className={listLabel}>Record</p>
+              <p className={`${oswald.className} mt-1 text-2xl font-bold uppercase tabular-nums tracking-tight text-[#0B1B3A]`}>
                 {horse.record}
               </p>
             </div>
-            <div className="lg:px-6">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Earnings</p>
-              <p className={`${oswald.className} mt-2 text-2xl font-bold uppercase tabular-nums tracking-tight text-slate-900 sm:text-3xl`}>
+            <div>
+              <p className={listLabel}>Earnings</p>
+              <p className={`${oswald.className} mt-1 text-2xl font-bold uppercase tabular-nums tracking-tight text-[#0B1B3A]`}>
                 {horse.earnings}
               </p>
             </div>
-            <div className="col-span-2 border-t border-slate-300/80 pt-8 lg:col-span-1 lg:border-t-0 lg:pt-0 lg:px-6">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Best class</p>
-              <p className={`${oswald.className} mt-2 text-xl font-bold uppercase leading-tight tracking-tight text-slate-900 sm:text-2xl`}>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6 pt-6">
+            <div className="space-y-1">
+              <p className={labelField}>Best class</p>
+              <p className={`${oswald.className} text-lg font-bold uppercase leading-tight tracking-tight text-[#0B1B3A] md:text-xl`}>
                 {bestClass}
               </p>
             </div>
-            <div className="col-span-2 border-t border-slate-300/80 pt-8 lg:col-span-1 lg:border-t-0 lg:pt-0 lg:px-6 lg:pr-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Career starts</p>
-              <p className={`${oswald.className} mt-2 text-2xl font-bold uppercase tabular-nums tracking-tight text-slate-900 sm:text-3xl`}>
+            <div className="space-y-1">
+              <p className={labelField}>Career starts</p>
+              <p className={`${oswald.className} text-lg font-bold uppercase tabular-nums tracking-tight text-[#0B1B3A] md:text-xl`}>
                 {careerStarts}
               </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Biography */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className={`${oswald.className} text-sm font-bold uppercase tracking-[0.22em] text-slate-900`}>
-            Biography
-          </h2>
-          <p className="mt-8 max-w-[900px] font-sans text-lg font-semibold leading-[1.65] text-slate-800 sm:text-xl sm:leading-[1.7]">
-            {horse.bio}
-          </p>
-          {horse.salesNote ? (
-            <div className="mt-12 max-w-[900px] border-t border-slate-200 pt-10">
-              <h3 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f97c9]">Buyer / consignor</h3>
-              <p className="mt-3 font-sans text-sm font-medium leading-relaxed text-slate-600">{horse.salesNote}</p>
-            </div>
-          ) : null}
-        </div>
-      </section>
+          <div className={dividerY} aria-hidden />
 
-      {/* Pedigree & connections */}
-      <section className="border-t border-slate-200 bg-[#f8f9fb] py-14 sm:py-16">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h2 className={`${oswald.className} border-b border-slate-300 pb-4 text-sm font-bold uppercase tracking-[0.18em] text-slate-900`}>
-              Pedigree
-            </h2>
-            <dl className="mt-6 space-y-0 divide-y divide-slate-200">
-              <div className="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Sire</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{horse.sire}</dd>
+          {/* Biography */}
+          <div className="space-y-4">
+            <h2 className={sectionEyebrow}>Biography</h2>
+            <p className="font-sans text-[15px] font-medium leading-relaxed text-[#2C3E5D]">{horse.bio}</p>
+            {horse.salesNote ? (
+              <div className="space-y-4 border-t border-[#E6ECF5] pt-6">
+                <h3 className={sectionEyebrow}>Buyer / consignor</h3>
+                <p className="font-sans text-[15px] leading-relaxed text-[#2C3E5D]">{horse.salesNote}</p>
               </div>
-              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Dam</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{damShortName(horse.dam)}</dd>
-              </div>
-              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Damsire</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{damsire ?? "—"}</dd>
-              </div>
-            </dl>
-          </div>
-          <div>
-            <h2 className={`${oswald.className} border-b border-slate-300 pb-4 text-sm font-bold uppercase tracking-[0.18em] text-slate-900`}>
-              Connections
-            </h2>
-            <dl className="mt-6 space-y-0 divide-y divide-slate-200">
-              {horse.jockey ? (
-                <div className="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                  <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Jockey</dt>
-                  <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{horse.jockey}</dd>
-                </div>
-              ) : null}
-              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Trainer</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{horse.trainer}</dd>
-              </div>
-              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Owner</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{horse.owner ?? "—"}</dd>
-              </div>
-              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                <dt className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7f97c9]">Breeder</dt>
-                <dd className="font-sans text-base font-semibold text-[#113278] sm:text-right">{horse.breeder ?? "—"}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <PeriodStatsBlock horse={horse} />
-
-      {/* Recent results */}
-      {rows.length > 0 ? (
-        <section className="border-t border-slate-200 bg-white py-14 sm:py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <h2 className={`${oswald.className} text-sm font-bold uppercase tracking-[0.22em] text-slate-900`}>
-              Recent results
-            </h2>
-            <ul className="mt-8 divide-y divide-slate-200 border-t border-slate-200">
-              {rows.map((row, i) => (
-                <li
-                  key={`${row.date}-${row.track}-${i}`}
-                  className="grid grid-cols-1 gap-2 py-4 font-sans text-sm sm:grid-cols-[7rem_1fr_1fr_auto] sm:items-center sm:gap-6"
-                >
-                  <time className="shrink-0 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    {formatProfileResultDate(row.date)}
-                  </time>
-                  <span className="font-semibold text-slate-900">{row.track}</span>
-                  <span className="min-w-0 text-slate-600">{row.race}</span>
-                  <span className="text-left text-lg font-bold tabular-nums tracking-tight text-[#113278] sm:text-right sm:text-xl">
-                    {row.finish.trim().toUpperCase()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            {horseResults.length > 0 ? (
-              <p className="mt-8 text-sm text-slate-500">
-                <Link href="/results" className="font-semibold text-[#113278] transition hover:text-[#1a448f]">
-                  View all results →
-                </Link>
-              </p>
             ) : null}
           </div>
-        </section>
-      ) : null}
 
-      {/* Related coverage */}
-      {coverage.length > 0 ? (
-        <section className="border-t border-slate-200 bg-white py-14 sm:py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <h2 className={`${oswald.className} text-sm font-bold uppercase tracking-[0.22em] text-slate-900`}>
-              Related coverage
-            </h2>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {coverage.map((item) => (
-                <CoverageCard key={item.id + item.href} item={item} />
-              ))}
+          <div className={dividerY} aria-hidden />
+
+          {/* Pedigree */}
+          <div className="space-y-4">
+            <h2 className={sectionEyebrow}>Pedigree</h2>
+            <div className="divide-y divide-[#E6ECF5]">
+              <div className={listRow}>
+                <span className={listLabel}>Sire</span>
+                <span className={listValue}>{horse.sire}</span>
+              </div>
+              <div className={listRow}>
+                <span className={listLabel}>Dam</span>
+                <span className={listValue}>{damShortName(horse.dam)}</span>
+              </div>
+              <div className={listRow}>
+                <span className={listLabel}>Damsire</span>
+                <span className={listValue}>{damsire ?? "—"}</span>
+              </div>
             </div>
           </div>
-        </section>
-      ) : null}
 
-      <div className="mx-auto max-w-7xl px-4 pt-10 text-center sm:px-6">
-        <Link href="/horses" className="text-sm font-semibold uppercase tracking-wide text-[#113278] transition hover:text-[#1a448f]">
-          ← Back to roster
-        </Link>
+          <div className={dividerY} aria-hidden />
+
+          {/* Connections */}
+          <div className="space-y-4">
+            <h2 className={sectionEyebrow}>Connections</h2>
+            <div className="divide-y divide-[#E6ECF5]">
+              {horse.jockey ? (
+                <div className={listRow}>
+                  <span className={listLabel}>Jockey</span>
+                  <span className={listValue}>{horse.jockey}</span>
+                </div>
+              ) : null}
+              <div className={listRow}>
+                <span className={listLabel}>Trainer</span>
+                <span className={listValue}>{horse.trainer}</span>
+              </div>
+              <div className={listRow}>
+                <span className={listLabel}>Owner</span>
+                <span className={listValue}>{horse.owner ?? "—"}</span>
+              </div>
+              <div className={listRow}>
+                <span className={listLabel}>Breeder</span>
+                <span className={listValue}>{horse.breeder ?? "—"}</span>
+              </div>
+            </div>
+          </div>
+
+          {(horse.periodStats2026 || horse.periodStatsCareer) && (
+            <>
+              <div className={dividerY} aria-hidden />
+              <div className="space-y-6">
+                <h2 className={`${oswald.className} text-[12px] font-bold uppercase tracking-[0.2em] text-[#8FA3BF]`}>
+                  Period statistics
+                </h2>
+                {horse.periodStats2026 ? (
+                  <div className="space-y-1">
+                    <p className={labelField}>2026 (through current entry)</p>
+                    <p className="font-sans text-[15px] leading-relaxed text-[#2C3E5D]">
+                      <span className="font-semibold text-[#0B1B3A]">{horse.periodStats2026.starts}</span> starts ·{" "}
+                      <span className="font-semibold text-[#0B1B3A]">{horse.periodStats2026.firsts}</span> wins ·{" "}
+                      {horse.periodStats2026.seconds}–{horse.periodStats2026.thirds} ·{" "}
+                      <span className="font-semibold tabular-nums text-[#113278]">{horse.periodStats2026.earnings}</span>
+                    </p>
+                  </div>
+                ) : null}
+                {horse.periodStatsCareer ? (
+                  <div className="space-y-1">
+                    <p className={labelField}>Career (stable)</p>
+                    <p className="font-sans text-[15px] leading-relaxed text-[#2C3E5D]">
+                      <span className="font-semibold text-[#0B1B3A]">{horse.periodStatsCareer.starts}</span> starts ·{" "}
+                      <span className="font-semibold text-[#0B1B3A]">{horse.periodStatsCareer.firsts}</span> wins ·{" "}
+                      {horse.periodStatsCareer.seconds}–{horse.periodStatsCareer.thirds} ·{" "}
+                      <span className="font-semibold tabular-nums text-[#113278]">{horse.periodStatsCareer.earnings}</span>
+                    </p>
+                  </div>
+                ) : null}
+                <p className="text-xs text-[#8FA3BF]">Figures shown for stable and promotional use.</p>
+              </div>
+            </>
+          )}
+
+          {rows.length > 0 ? (
+            <>
+              <div className={dividerY} aria-hidden />
+              <div className="space-y-6">
+                <h2 className={`${oswald.className} text-[12px] font-bold uppercase tracking-[0.2em] text-[#8FA3BF]`}>
+                  Recent results
+                </h2>
+                <div className="space-y-6">
+                  {rows.map((row, i) => (
+                    <div
+                      key={`${row.date}-${row.track}-${i}`}
+                      className="border-b border-[#E6ECF5] pb-4 last:border-b-0 last:pb-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-wide text-[#8FA3BF]">
+                        {formatProfileResultDate(row.date)}
+                      </p>
+                      <p className="mt-1 font-semibold text-[#0B1B3A]">{row.track}</p>
+                      <p className="text-sm text-[#5B6B88]">{row.race}</p>
+                      <p className="mt-2 text-lg font-bold tabular-nums tracking-tight text-[#113278]">
+                        {row.finish.trim().toUpperCase()}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {horseResults.length > 0 ? (
+                  <p className="text-sm text-[#5B6B88]">
+                    <Link href="/results" className="font-semibold text-[#113278] transition hover:text-[#1a448f]">
+                      View all results →
+                    </Link>
+                  </p>
+                ) : null}
+              </div>
+            </>
+          ) : null}
+
+          {coverage.length > 0 ? (
+            <>
+              <div className={dividerY} aria-hidden />
+              <div className="space-y-6">
+                <h2 className={`${oswald.className} text-[12px] font-bold uppercase tracking-[0.2em] text-[#8FA3BF]`}>
+                  Related coverage
+                </h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {coverage.map((item) => (
+                    <CoverageCard key={item.id + item.href} item={item} />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          <div className="mt-10 border-t border-[#E6ECF5] pt-6 text-center">
+            <Link href="/horses" className="text-xs font-semibold uppercase tracking-wide text-[#113278] transition hover:text-[#1a448f]">
+              ← Back to roster
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
