@@ -1,24 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { oswald } from "@/components/fixture/fixtureStripShared";
-import { InstagramLogo } from "@/components/icons/InstagramLogo";
 
-/** Placeholder profile links — replace with canonical stable URLs when set. */
 const SOCIAL_INSTAGRAM = "https://www.instagram.com/flyingdutchmenky/";
+const SOCIAL_X = "https://x.com/flyingdutchmen";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/horses", label: "Horses" },
   { href: "/results", label: "Results" },
-  { href: "/news", label: "News" }
-] as const;
-
-const STABLE_LINKS = [
+  { href: "/news", label: "News" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }
 ] as const;
 
-const INFO_LINKS = [
+const LEGAL_LINKS = [
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" }
 ] as const;
@@ -26,16 +22,15 @@ const INFO_LINKS = [
 const columnHeading =
   "mb-3 font-sans text-[9px] font-semibold uppercase tracking-[0.11em] text-[#7f97c9]";
 
-const linkClass =
-  "block w-fit font-sans text-[14px] font-medium leading-snug text-white/88 transition hover:text-white hover:underline hover:decoration-white/35 hover:underline-offset-[3px]";
+const footerNavLinkClass =
+  "block w-fit text-sm leading-snug text-gray-300 transition hover:text-white";
 
-const socialBtnClass =
-  "inline-flex items-center gap-2 rounded-sm border border-white/18 bg-transparent px-4 py-2.5 font-sans text-[14px] font-medium text-white transition hover:border-[#113278] hover:bg-[#113278]/25 hover:text-white";
+const socialPillClass =
+  "inline-flex items-center rounded-lg border border-white/20 px-4 py-2 font-sans text-sm font-medium text-white transition hover:border-white/35 hover:bg-white/5";
 
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#0B1220] text-white">
-      {/* Large crest — right side, vertically centered in main block (hidden on xs) */}
       <div
         className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[min(52%,520px)] items-center justify-end pr-2 sm:flex lg:w-[min(46%,520px)] lg:pr-6"
         aria-hidden
@@ -51,7 +46,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Very small screens: subtle mark, lower-right */}
       <div
         className="pointer-events-none absolute bottom-6 right-4 z-0 h-40 w-40 opacity-[0.03] sm:hidden"
         aria-hidden
@@ -66,9 +60,9 @@ export function Footer() {
       </div>
 
       <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 pb-12 pt-[72px] sm:px-6">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10 lg:grid-cols-[minmax(0,1.65fr)_repeat(3,minmax(0,1fr))] lg:gap-x-10 lg:gap-y-0 xl:gap-x-12">
-          {/* Brand + social */}
-          <div className="max-w-[280px] sm:col-span-2 sm:max-w-none lg:col-span-1 lg:pr-4">
+        <div className="flex flex-col gap-10 md:grid md:grid-cols-4 md:gap-x-10 md:gap-y-0 xl:gap-x-12">
+          {/* A — Brand */}
+          <div className="max-w-md md:max-w-none">
             <p className={`${oswald.className} text-[13px] font-bold uppercase leading-snug tracking-[0.12em] text-white sm:text-sm`}>
               Flying Dutchmen Racing
             </p>
@@ -78,55 +72,51 @@ export function Footer() {
             <p className="mt-4 font-sans text-[13px] leading-relaxed text-[#8d9cb3]">
               Follow live updates, entries, results, and stable coverage.
             </p>
+          </div>
 
-            <h2 className={`${columnHeading} mt-8`}>Follow the stable</h2>
-            <div className="mt-3 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
-              <a
-                href={SOCIAL_INSTAGRAM}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={socialBtnClass}
-              >
-                <span className="inline-flex shrink-0 rounded-[3px] bg-white p-[2px] leading-none">
-                  <InstagramLogo gradientId="fd-footer-instagram" className="h-4 w-4" />
-                </span>
-                Instagram <span aria-hidden>→</span>
-              </a>
+          {/* B — Social */}
+          <div>
+            <div>
+              <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Follow the stable
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={SOCIAL_INSTAGRAM}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={socialPillClass}
+                >
+                  Instagram <span aria-hidden>→</span>
+                </a>
+                <a href={SOCIAL_X} target="_blank" rel="noopener noreferrer" className={socialPillClass}>
+                  X <span aria-hidden>→</span>
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="sm:col-span-1 lg:col-span-1">
+          {/* C — Navigation */}
+          <div>
             <h2 className={columnHeading}>Navigation</h2>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2 text-sm text-gray-300">
               {NAV_LINKS.map((item) => (
-                <li key={item.href + item.label}>
-                  <Link href={item.href} className={linkClass}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="sm:col-span-1 lg:col-span-1">
-            <h2 className={columnHeading}>Stable</h2>
-            <ul className="space-y-2.5">
-              {STABLE_LINKS.map((item, i) => (
-                <li key={`${item.href}-${item.label}-${i}`}>
-                  <Link href={item.href} className={linkClass}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h2 className={columnHeading}>Info</h2>
-            <ul className="space-y-2.5">
-              {INFO_LINKS.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className={linkClass}>
+                  <Link href={item.href} className={footerNavLinkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* D — Legal */}
+          <div>
+            <h2 className={columnHeading}>Legal</h2>
+            <ul className="space-y-2 text-sm text-gray-300">
+              {LEGAL_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={footerNavLinkClass}>
                     {item.label}
                   </Link>
                 </li>
@@ -135,9 +125,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="my-12 border-t border-white/[0.12] sm:my-14" aria-hidden />
-
-        <div className="flex flex-col gap-2 font-sans text-[11px] leading-snug text-[#8d9cb3] sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs leading-snug text-gray-400 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
           <p className="text-white/55">© 2026 Flying Dutchmen Racing</p>
           <p className="max-w-md sm:text-right">Live operation updates, entries, and performance reporting.</p>
         </div>
